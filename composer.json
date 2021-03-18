@@ -1,0 +1,26 @@
+{
+        "name": "Brituy/Discount",
+        "description": "Cart rule add discount.",
+        "type": "magento2-module",
+        "version": "1.0.0",
+        "license": [
+            "OSL-3.0",
+            "AFL-3.0"
+        ],
+        "authors": [
+        {
+            "name": "Andrei Brituy",
+            "email": "brituy@mail.ru",
+            "homepage": "https://github.com/brituy/",
+            "role": "Developer"
+        }
+	],
+        "extra": {
+            "map": [
+                [
+                    "*",
+                    "Brituy/Discount"
+                ]
+            ]
+        }
+    }
