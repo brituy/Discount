@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<!-- регистрируем маршурт brituy_simpleblog (внутренний идентификатор) с именем brituy_simpleblog (видимый идентификатор, часть URL'а) -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="brituy_discount" frontName="brituy_discount">
+            <module name="Brituy_Discount"/>
+        </route>
+    </router>
+</config>
