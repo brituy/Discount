@@ -1,22 +1,29 @@
-<!-- declare the post collection class, table and resourceModel for the table -->
-<!-- This source will be called in the layout file to get data for grid -->
+<?xml version="1.0"?>
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="discount_listing_data_source" xsi:type="string">
-                	Brituy\Discount\Model\ResourceModel\Discount\Collection
-                </item>
-            </argument>
-        </arguments>
+
+    <!-- regarding cutom action -->
+    <!--
+    <preference for="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory" 
+		type="Brituy\Discount\Plugin\Model\Rule\Action\Discount\CalculatorFactory" />
+    
+    <type name="Magento\SalesRule\Model\Rule\Metadata\ValueProvider">
+        <plugin name="brituy_discount_valueProvider" 
+        	type="Brituy\Discount\Plugin\Model\Rule\Metadata\ValueProvider"
+        	sortOrder="1" />
+    </type>
+    -->
+    
+    <type name="Magento\SalesRule\Model\Rule\Metadata\ValueProvider">
+	<plugin name="brituy_discount_valueProvider"
+		type="Brituy\Discount\Plugin\Model\Rule\Metadata\ValueProvider"
+		sortOrder="10" />
     </type>
     
-    <virtualType name="Brituy\Discount\Model\ResourceModel\Discount\Collection"
-    		  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">brituy_discount</argument>
-            <argument name="resourceModel" xsi:type="string">Brituy\Discount\Model\ResourceModel\Discount</argument>
-        </arguments>
-    </virtualType>
+    <type name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
+	<plugin name="brituy_discount_calculatorfactory"
+		type="Brituy\Discount\Plugin\Model\Rule\Action\Discount\CalculatorFactory"
+		sortOrder="20" />
+    </type>
+    
 </config>
