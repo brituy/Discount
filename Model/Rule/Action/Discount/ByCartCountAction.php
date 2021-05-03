@@ -26,28 +26,12 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         parent::__construct($validator, $discountDataFactory, $priceCurrency);
     }
 
-    public function calculate($rule, $item, $qty)
+    public function getItemsToDiscount($quote, $rule)
     {
-        $discountData = $this->discountFactory->create();
-
-        $itemPrice = $this->validator->getItemPrice($item);
-        $baseItemPrice = $this->validator->getItemBasePrice($item);
-        $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
-        $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
-
-        $qtyMinProducts = (int) $rule->getDiscountStep();
-        $discountAmount = (int) $rule->getDiscountAmount();
-
-        //$cartQuoteItems = $this->cart->getQuote()->getAllItems();
-        //$itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote(), $rule, $qtyMinProducts, $discountAmount);
-
         $CartItemsIds = [];
 
-        $allQuoteItems = $this->cart->getQuote()->getAllVisibleItems();
-
-        foreach ($this->cart->getQuote()->getAllVisibleItems() as $cartQuoteItems)
+        foreach ($quote->getAllVisibleItems() as $cartQuoteItems)
         {
-            //$product = $this->productFactory->create()->load($cartQuoteItems->getProduct()->getId());
             if (array_key_exists($cartQuoteItems->getProduct()->getId(),$CartItemsIds))
             {
 		        $CartItemsIds[$cartQuoteItems->getProduct()->getId()] += $cartQuoteItems->getQty();
@@ -57,18 +41,38 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
 	        }
         }
 
-        $idsPromoDiscount = array_keys($CartItemsIds);
+        return $CartItemsIds;
+    }
 
-        if(in_array($item->getId(), $idsPromoDiscount))
+    public function calculate($rule, $item, $qty)
+    {
+        $discountData = $this->discountFactory->create();
+
+        $itemPrice = $this->validator->getItemPrice($item);
+        $baseItemPrice = $this->validator->getItemBasePrice($item);
+        $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
+        $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
+
+        $qtyMaxProducts = (int) $rule->getDiscountQty();
+        $rulePercent = min(100, $rule->getDiscountAmount());
+
+        $itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote(), $rule);
+
+        $idsPromoDiscount = array_keys($itemsToDiscount);
+
+        if(in_array($item->getProduct()->getId(), $idsPromoDiscount))
         {
-            $qtyToDiscount = $itemsToDiscount[$item->getId()]['qty'];
+            $qtyToDiscount = $itemsToDiscount[$item->getProduct()->getId()];
 
-            $amountDiscount = $itemOriginalPrice * $qtyToDiscount;
+            if ($qtyToDiscount >= 2)
+            {
+                if ($qtyToDiscount > $qtyMaxProducts){ $qtyToDiscount = $qtyMaxProducts; }
 
-            $discountData->setAmount($amountDiscount);
-            $discountData->setBaseAmount($amountDiscount);
-            $discountData->setOriginalAmount(($itemOriginalPrice * $qty));
-            $discountData->setBaseOriginalAmount($this->priceCurrency->round($baseItemOriginalPrice));
+                $discountData->setAmount($itemPrice /100 * $rulePercent * $qtyToDiscount * $qty);
+                $discountData->setBaseAmount($baseItemPrice /100 * $rulePercent * $qtyToDiscount * $qty);
+                $discountData->setOriginalAmount($itemOriginalPrice /100 * $rulePercent * $qtyToDiscount * $qty);
+                $discountData->setBaseOriginalAmount($baseItemOriginalPrice /100 * $rulePercent * $qtyToDiscount * $qty);
+            }
         }
 
         return $discountData;
