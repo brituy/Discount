@@ -1,8 +1,9 @@
 18.03.2021	Module created.
 26.03.2021	Plugin registered.
 29.03.2021	Add rule check condition.
-
-
+03.05.2021	Rule logic fix.
+04.05.2021	Add discount qty step.
+05.05.2021	Fix product condition checker.
 
 Создать правило по которому при увеличении кол-ва продукта в 
 корзине будет увеличиваться процент скидки.

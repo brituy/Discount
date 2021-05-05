@@ -3,27 +3,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
 
     <!-- regarding cutom action -->
-    <!--
-    <preference for="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory" 
-		type="Brituy\Discount\Plugin\Model\Rule\Action\Discount\CalculatorFactory" />
-    
-    <type name="Magento\SalesRule\Model\Rule\Metadata\ValueProvider">
-        <plugin name="brituy_discount_valueProvider" 
-        	type="Brituy\Discount\Plugin\Model\Rule\Metadata\ValueProvider"
-        	sortOrder="1" />
-    </type>
-    -->
-    
     <type name="Magento\SalesRule\Model\Rule\Metadata\ValueProvider">
 	<plugin name="brituy_discount_valueProvider"
 		type="Brituy\Discount\Plugin\Model\Rule\Metadata\ValueProvider"
 		sortOrder="10" />
     </type>
-    
+
     <type name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
 	<plugin name="brituy_discount_calculatorfactory"
 		type="Brituy\Discount\Plugin\Model\Rule\Action\Discount\CalculatorFactory"
 		sortOrder="20" />
     </type>
-    
 </config>

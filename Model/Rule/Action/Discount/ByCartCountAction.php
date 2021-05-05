@@ -34,11 +34,11 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         {
             if (array_key_exists($cartQuoteItems->getProduct()->getId(),$CartItemsIds))
             {
-		        $CartItemsIds[$cartQuoteItems->getProduct()->getId()] += $cartQuoteItems->getQty();
-	        } else
-	        {
-		        $CartItemsIds[$cartQuoteItems->getProduct()->getId()]=$cartQuoteItems->getQty();;
-	        }
+                $CartItemsIds[$cartQuoteItems->getProduct()->getId()] += $cartQuoteItems->getQty();
+            } else
+            {
+                $CartItemsIds[$cartQuoteItems->getProduct()->getId()]=$cartQuoteItems->getQty();;
+            }
         }
 
         return $CartItemsIds;
@@ -53,7 +53,9 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
         $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
 
-        $qtyMaxProducts = (int) $rule->getDiscountQty();
+
+        $ruleQuantityStep = $rule->getDiscountStep();
+        $ruleMaxProducts = (int) $rule->getDiscountQty();
         $rulePercent = min(100, $rule->getDiscountAmount());
 
         $itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote(), $rule);
@@ -64,9 +66,10 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         {
             $qtyToDiscount = $itemsToDiscount[$item->getProduct()->getId()];
 
-            if ($qtyToDiscount >= 2)
+            if ($qtyToDiscount >= $ruleQuantityStep)
             {
-                if ($qtyToDiscount > $qtyMaxProducts){ $qtyToDiscount = $qtyMaxProducts; }
+                if ($qtyToDiscount > $ruleMaxProducts){ $qtyToDiscount = $ruleMaxProducts; }
+                if ($ruleQuantityStep) { $qtyToDiscount = floor($qtyToDiscount / $ruleQuantityStep); }
 
                 $discountData->setAmount($itemPrice /100 * $rulePercent * $qtyToDiscount * $qty);
                 $discountData->setBaseAmount($baseItemPrice /100 * $rulePercent * $qtyToDiscount * $qty);
