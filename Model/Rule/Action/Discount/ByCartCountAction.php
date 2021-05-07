@@ -26,7 +26,7 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         parent::__construct($validator, $discountDataFactory, $priceCurrency);
     }
 
-    public function getItemsToDiscount($quote, $rule)
+    public function getItemsToDiscount($quote)
     {
         $CartItemsIds = [];
 
@@ -53,12 +53,11 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         $itemOriginalPrice = $this->validator->getItemOriginalPrice($item);
         $baseItemOriginalPrice = $this->validator->getItemBaseOriginalPrice($item);
 
-
         $ruleQuantityStep = $rule->getDiscountStep();
         $ruleMaxProducts = (int) $rule->getDiscountQty();
         $rulePercent = min(100, $rule->getDiscountAmount());
 
-        $itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote(), $rule);
+        $itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote());
 
         $idsPromoDiscount = array_keys($itemsToDiscount);
 
@@ -75,6 +74,14 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
                 $discountData->setBaseAmount($baseItemPrice /100 * $rulePercent * $qtyToDiscount * $qty);
                 $discountData->setOriginalAmount($itemOriginalPrice /100 * $rulePercent * $qtyToDiscount * $qty);
                 $discountData->setBaseOriginalAmount($baseItemOriginalPrice /100 * $rulePercent * $qtyToDiscount * $qty);
+            }else
+            {
+                $itemRulesApplied = explode(',', $item->getAppliedRuleIds());
+                foreach($itemRulesApplied as $ruleAppled => $itemApplied)
+                {
+                    if ($itemApplied == $rule->getRuleId()){ unset($itemRulesApplied[$ruleAppled]); }
+                }
+                $item->setAppliedRuleIds($itemRulesApplied);
             }
         }
 

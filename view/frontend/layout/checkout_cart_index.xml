@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Brituy_Discount::css/addtocart.css"/>
+    </head>
+    
+    <body>
+        <referenceContainer name="additional.product.info">
+            <block class="Brituy\Discount\Block\AdditionalProdInfo" 
+            	    name="cart_item_addional_info" 
+            	    template="Brituy_Discount::checkout/cart/item/additionalinfo.phtml" 
+            	    cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>
