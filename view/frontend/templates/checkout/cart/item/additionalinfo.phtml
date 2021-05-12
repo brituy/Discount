@@ -3,6 +3,10 @@
     $product = $_item->getProduct(); // Get cart product details
     $additional_data = $block->getAdditionalData(); // Get cart product additionl details defined in block page
 ?>
-<div class="additional-data">
-    <span><?php echo $additional_data?></span>
+<div>
+    <?php foreach ($additional_data as $add_data): ?>
+	<div class="additional-data">
+	    <span><?php echo $add_data?></span>
+	<div>
+    <?php endforeach; ?>
 </div>
