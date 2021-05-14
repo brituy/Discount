@@ -4,7 +4,8 @@
 03.05.2021	Rule logic fix.
 04.05.2021	Add discount qty step.
 05.05.2021	Fix product condition checker.
-06.05.2021	Add dsicount info to cart item.
+06.05.2021	Add discount info to cart item.
+13.05.2021	Fix discount info in cart item.
 
 1. Quote->getAllItems почему размножены items
 2. Я удаляю свой id из applied_rule_ids, но все равно есть.

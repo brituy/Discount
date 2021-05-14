@@ -32,19 +32,19 @@ class AdditionalProdInfo extends Template
     {
         $additionalItemInfo = [];
 
-        $itemDiscountIds = explode(',', $this->getData('item')->getData('applied_rule_ids'));
-        $itemDiscountAmount = $this->getData('item')->getData('discount_amount');
-        
-        if (($itemDiscountAmount != 0)||($itemDiscountIds))
+        $itemExtAttrib = $this->getData('item')->getExtensionAttributes()->getDiscounts();
+        if($itemExtAttrib)
         {
-            foreach ($itemDiscountIds as $discountIds)
-            {
-                $ruleData = $this->ruleRepository->getById($discountIds);
-                $additionalItemInfo[] = ('You got a "'.$ruleData->getName().'" discount and saved '.
-                				$this->priceCurrencyInterface->format($itemDiscountAmount, false, 2));
-            }
+	    foreach ($itemExtAttrib as $key => $value)
+	    {
+		$itemRuleAmount = $value->getDiscountData()->getAmount();
+		$itemRuleID = $value->getRuleID();
+		$ruleData = $this->ruleRepository->getById($itemRuleID);
+		$additionalItemInfo[] = ('You got a "'.$ruleData->getName().'" discount and saved '.
+                				$this->priceCurrencyInterface->format($itemRuleAmount, false, 2));
+	    }
         }
-
+        
         return $additionalItemInfo;
     }
 }

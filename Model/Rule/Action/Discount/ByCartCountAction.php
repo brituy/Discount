@@ -57,7 +57,8 @@ class ByCartCountAction extends \Magento\SalesRule\Model\Rule\Action\Discount\Ab
         $ruleMaxProducts = (int) $rule->getDiscountQty();
         $rulePercent = min(100, $rule->getDiscountAmount());
 
-        $itemsToDiscount = $this->getItemsToDiscount($this->cart->getQuote());
+        $cartQuote = $this->cart->getQuote(); // !!! sometime infinite loop
+        $itemsToDiscount = $this->getItemsToDiscount($cartQuote);
 
         $idsPromoDiscount = array_keys($itemsToDiscount);
 
