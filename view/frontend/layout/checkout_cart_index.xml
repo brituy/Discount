@@ -6,7 +6,7 @@
     
     <body>
         <referenceContainer name="additional.product.info">
-            <block class="Brituy\Discount\Block\AdditionalProdInfo" 
+            <block class="Brituy\Discount\Block\Checkout\Cart\Item\AdditionalProdInfo" 
             	    name="cart_item_addional_info" 
             	    template="Brituy_Discount::checkout/cart/item/additionalinfo.phtml" 
             	    cacheable="false"/>

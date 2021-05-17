@@ -1,5 +1,5 @@
 <?php
-namespace Brituy\Discount\Block;
+namespace Brituy\Discount\Block\Checkout\Cart\Item;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;

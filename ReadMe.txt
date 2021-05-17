@@ -6,6 +6,8 @@
 05.05.2021	Fix product condition checker.
 06.05.2021	Add discount info to cart item.
 13.05.2021	Fix discount info in cart item.
+15.05.2021	Add x2,x4,x6 action
+17.05.2021	Add x3,x5,x7 action
 
 1. Quote->getAllItems почему размножены items
 2. Я удаляю свой id из applied_rule_ids, но все равно есть.
