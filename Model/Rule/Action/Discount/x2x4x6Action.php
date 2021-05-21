@@ -81,3 +81,8 @@ class x2x4x6Action extends \Magento\SalesRule\Model\Rule\Action\Discount\Abstrac
         return $discountData;
     }
 }
+
+/**
+в х2х4х6 коэффициэнт умножения скидки по факту равен целой части от деления на 2, 
+соответственно $ruleX=$CountQuot
+**/
